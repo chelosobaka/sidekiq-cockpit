@@ -1,0 +1,59 @@
+<p><%= link_to t('.back'), root_path, class: 'link-secondary' %></p>
+
+<header class="d-flex flex-wrap align-items-start gap-3 mb-4">
+  <div class="me-auto">
+    <h1 class="h3 mb-1"><%= @row.name %></h1>
+    <div class="text-body-secondary"><%= @row.description %></div>
+    <div class="mt-2">
+      <%= @row.trigger %>
+      <% if @row.scheduled? %>
+        <code class="ms-1"><%= @row.cron_job.cron %></code>
+        <% if @row.next_run_at %>
+          <span class="small ms-2"><%= t('sidekiq_jobs_displayer.next_run', time: sjd_time(@row.next_run_at)) %></span>
+        <% else %>
+          <span class="small text-danger ms-2"><%= t('sidekiq_jobs_displayer.disabled') %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @row.scheduled? %>
+    <div class="d-flex gap-2">
+      <%= button_to t('.enqueue'), enqueue_job_path(@row.name), class: 'btn btn-primary btn-sm' %>
+      <% if @row.enabled? %>
+        <%= button_to t('.disable'), disable_job_path(@row.name), class: 'btn btn-outline-danger btn-sm' %>
+      <% else %>
+        <%= button_to t('.enable'), enable_job_path(@row.name), class: 'btn btn-outline-success btn-sm' %>
+      <% end %>
+    </div>
+  <% end %>
+</header>
+
+<% if @row.runs.empty? %>
+  <p class="text-body-secondary"><%= t('.no_runs') %></p>
+<% else %>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm align-top">
+      <thead>
+        <tr>
+          <th><%= t('sidekiq_jobs_displayer.columns.started_at') %></th>
+          <th><%= t('sidekiq_jobs_displayer.columns.duration') %></th>
+          <th><%= t('sidekiq_jobs_displayer.columns.queue') %></th>
+          <th><%= t('sidekiq_jobs_displayer.columns.result') %></th>
+          <th><%= t('sidekiq_jobs_displayer.columns.args') %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @row.runs.each do |run| %>
+          <tr>
+            <td class="text-nowrap"><%= sjd_time(run.started_at) %></td>
+            <td class="text-nowrap"><%= sjd_duration(run.duration) %></td>
+            <td><%= run.queue %></td>
+            <td><%= sjd_result(run) %></td>
+            <td><code class="small"><%= run.args %></code></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

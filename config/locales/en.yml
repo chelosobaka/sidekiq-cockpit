@@ -1,0 +1,49 @@
+en:
+  sidekiq_jobs_displayer:
+    nav:
+      jobs: "Jobs"
+      back: "Back to app"
+    columns:
+      job: "Job"
+      when: "When it runs"
+      last_run: "Last run"
+      result: "Result"
+      day: "Last 24h"
+      started_at: "Started"
+      duration: "Duration"
+      queue: "Queue"
+      args: "Arguments"
+    statuses:
+      ok: "ok"
+      failed: "failed"
+      interrupted: "interrupted by restart"
+    duration:
+      seconds: "%{value} s"
+      minutes: "%{min} min %{sec} s"
+    never_run: "never run yet"
+    next_run: "next: %{time}"
+    disabled: "schedule disabled"
+    day_runs: "runs: %{runs}"
+    day_failures: "failed: %{failures}"
+    retry: "retry %{count}"
+    jobs:
+      not_scheduled: "This job has no schedule"
+      index:
+        title: "Jobs"
+        intro: "All background jobs, scheduled and event-driven. The last %{limit} runs of each are kept."
+        empty: "No jobs found. Check config.job_paths."
+        sections:
+          scheduled: "Scheduled"
+          events: "Event-driven"
+      show:
+        back: "← All jobs"
+        no_runs: "No runs yet."
+        enqueue: "Run now"
+        enable: "Enable"
+        disable: "Disable"
+      enqueue:
+        done: "Job enqueued"
+      enable:
+        done: "Schedule enabled"
+      disable:
+        done: "Schedule disabled"

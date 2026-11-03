@@ -1,0 +1,49 @@
+ru:
+  sidekiq_jobs_displayer:
+    nav:
+      jobs: "Задачи"
+      back: "В приложение"
+    columns:
+      job: "Задача"
+      when: "Когда запускается"
+      last_run: "Последний запуск"
+      result: "Итог"
+      day: "За сутки"
+      started_at: "Начало"
+      duration: "Длительность"
+      queue: "Очередь"
+      args: "Аргументы"
+    statuses:
+      ok: "успешно"
+      failed: "ошибка"
+      interrupted: "прервана перезапуском"
+    duration:
+      seconds: "%{value} с"
+      minutes: "%{min} мин %{sec} с"
+    never_run: "запусков ещё не было"
+    next_run: "следующий: %{time}"
+    disabled: "расписание отключено"
+    day_runs: "запусков: %{runs}"
+    day_failures: "с ошибкой: %{failures}"
+    retry: "повтор %{count}"
+    jobs:
+      not_scheduled: "У задачи нет расписания"
+      index:
+        title: "Задачи"
+        intro: "Все фоновые задачи — по расписанию и по событиям. По каждой хранятся последние %{limit} запусков."
+        empty: "Задач не найдено. Проверьте config.job_paths."
+        sections:
+          scheduled: "По расписанию"
+          events: "По событиям"
+      show:
+        back: "← Все задачи"
+        no_runs: "Запусков ещё не было."
+        enqueue: "Запустить сейчас"
+        enable: "Включить"
+        disable: "Отключить"
+      enqueue:
+        done: "Задача поставлена в очередь"
+      enable:
+        done: "Расписание включено"
+      disable:
+        done: "Расписание отключено"

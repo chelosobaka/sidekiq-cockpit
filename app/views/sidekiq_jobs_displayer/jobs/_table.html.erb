@@ -1,0 +1,50 @@
+<div class="table-responsive">
+  <table class="table table-striped table-hover align-top">
+    <thead>
+      <tr>
+        <th><%= t('sidekiq_jobs_displayer.columns.job') %></th>
+        <th><%= t('sidekiq_jobs_displayer.columns.when') %></th>
+        <th><%= t('sidekiq_jobs_displayer.columns.last_run') %></th>
+        <th><%= t('sidekiq_jobs_displayer.columns.result') %></th>
+        <th><%= t('sidekiq_jobs_displayer.columns.day') %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% rows.each do |row| %>
+        <% run = row.last_run %>
+        <tr>
+          <td>
+            <%= link_to tag.strong(row.name), job_path(row.name), class: 'link-body-emphasis text-decoration-none' %>
+            <div class="small text-body-secondary"><%= row.description %></div>
+          </td>
+          <td>
+            <%= row.trigger %>
+            <% if row.scheduled? %>
+              <div><code class="small"><%= row.cron_job.cron %></code></div>
+              <% if row.next_run_at %>
+                <div class="small"><%= t('sidekiq_jobs_displayer.next_run', time: sjd_time(row.next_run_at)) %></div>
+              <% else %>
+                <div class="small text-danger"><%= t('sidekiq_jobs_displayer.disabled') %></div>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="text-nowrap">
+            <% if run %>
+              <%= sjd_time(run.started_at) %>
+              <div class="small text-body-secondary"><%= sjd_duration(run.duration) %></div>
+            <% else %>
+              <span class="text-body-secondary"><%= t('sidekiq_jobs_displayer.never_run') %></span>
+            <% end %>
+          </td>
+          <td><%= sjd_result(run) if run %></td>
+          <td class="text-nowrap">
+            <%= t('sidekiq_jobs_displayer.day_runs', runs: row.day_runs_label) %>
+            <% if row.day_failures.positive? %>
+              <div class="small text-danger"><%= t('sidekiq_jobs_displayer.day_failures', failures: row.day_failures) %></div>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

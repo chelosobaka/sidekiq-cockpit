@@ -1,0 +1,16 @@
+<header class="mb-4">
+  <h1 class="h3"><%= t('.title') %></h1>
+  <p class="text-body-secondary"><%= t('.intro', limit: SidekiqJobsDisplayer.config.history_limit) %></p>
+</header>
+
+<% if @rows.empty? %>
+  <p class="text-body-secondary"><%= t('.empty') %></p>
+<% end %>
+
+<% { 'scheduled' => @rows.select(&:scheduled?), 'events' => @rows.reject(&:scheduled?) }.each do |section, rows| %>
+  <% next if rows.empty? %>
+  <section class="mb-5">
+    <h2 class="h5"><%= t(".sections.#{section}") %></h2>
+    <%= render 'table', rows: rows %>
+  </section>
+<% end %>
