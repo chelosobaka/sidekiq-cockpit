@@ -1,5 +1,5 @@
 ru:
-  sidekiq_jobs_displayer:
+  sidekiq_cockpit:
     jobs:
       telegram_send_message_job:
         description: "Отправляет сообщение в Telegram"

@@ -5,10 +5,10 @@
 Шаг 1: ядро по слоям.
 
 - `Configuration` с вложенными `history`, `logs`, `errors`; `authorize` получает действие.
-- `Registry`, `JobDefinition` и DSL `displayer` (`include SidekiqJobsDisplayer::Job`).
+- `Registry`, `JobDefinition` и DSL `cockpit` (`include SidekiqCockpit::Job`).
 - Адаптеры расписаний `Schedulers::None` и `Schedulers::SidekiqCron` с `capabilities`;
   sidekiq-cron больше не зависимость гема, выбор — `c.scheduler = :auto`.
-- `Stores::Runs`: запуски с jid и часовые счётчики `sjd:stats`.
+- `Stores::Runs`: запуски с jid и часовые счётчики `cockpit:stats`.
 - `Middleware::Recorder`, маскирование секретов в аргументах.
 - `Queries::Overview`, `Queries::JobDetails`, `Actions::ToggleSchedule`, `Actions::EnqueueSchedule`.
 - Интерфейс `LogSources` (`:capture`, `:file`, свой класс) — сами источники на шаге 2.

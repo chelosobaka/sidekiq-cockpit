@@ -10,7 +10,7 @@ rescue LoadError
   nil
 end
 
-require 'sidekiq_jobs_displayer'
+require 'sidekiq_cockpit'
 
 module Dummy
   class Application < Rails::Application

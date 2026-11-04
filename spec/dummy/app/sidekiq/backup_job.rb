@@ -1,10 +1,10 @@
 class BackupJob
   include Sidekiq::Job
-  include SidekiqJobsDisplayer::Job
+  include SidekiqCockpit::Job
 
   sidekiq_options queue: 'backup'
 
-  displayer description: 'Бэкап базы', trigger: 'кнопка в админке', group: 'Бэкапы', runnable: true
+  cockpit description: 'Бэкап базы', trigger: 'кнопка в админке', group: 'Бэкапы', runnable: true
 
   def perform; end
 end

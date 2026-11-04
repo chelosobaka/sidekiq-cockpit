@@ -1,4 +1,4 @@
-SidekiqJobsDisplayer::Engine.routes.draw do
+SidekiqCockpit::Engine.routes.draw do
   # Обзор (ошибки, очереди) появится на шаге 2, пока корень — список задач.
   root 'jobs#index'
 

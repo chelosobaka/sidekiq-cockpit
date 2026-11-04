@@ -1,4 +1,4 @@
-# sidekiq_jobs_displayer
+# sidekiq-cockpit
 
 Своя страница фоновых задач Sidekiq для Rails 7.1+ вместо стандартного дашборда:
 мониторинг, управление запусками, логи с акцентом на ошибки. Вёрстка на Bootstrap 5.
@@ -16,17 +16,17 @@
 
 ```ruby
 # Gemfile
-gem 'sidekiq_jobs_displayer', github: 'chelosobaka/sidekiq_jobs_displayer'
+gem 'sidekiq-cockpit', github: 'chelosobaka/sidekiq-cockpit'
 ```
 
 ```sh
 bundle install
-bin/rails g sidekiq_jobs_displayer:install   # initializer + mount в routes.rb
+bin/rails g sidekiq_cockpit:install   # initializer + mount в routes.rb
 ```
 
 ```ruby
 # config/routes.rb
-mount SidekiqJobsDisplayer::Engine => '/admin/sidekiq'
+mount SidekiqCockpit::Engine => '/admin/sidekiq'
 ```
 
 Без `c.authorize` страница отвечает 403. Все изменяющие запросы идут через POST с CSRF.
@@ -34,9 +34,9 @@ mount SidekiqJobsDisplayer::Engine => '/admin/sidekiq'
 ## Как устроено
 
 ```
-lib/sidekiq_jobs_displayer/
+lib/sidekiq_cockpit/
   configuration.rb        все настройки (history, logs, errors — вложенные группы)
-  dsl.rb                  include SidekiqJobsDisplayer::Job + displayer ...
+  dsl.rb                  include SidekiqCockpit::Job + cockpit ...
   job_definition.rb       одна задача: класс, метаданные, расписания
   registry.rb             каталог задач: классы приложения + расписания + история
   schedulers/             адаптеры расписаний: base (интерфейс), none, sidekiq_cron
@@ -56,19 +56,19 @@ app/                      контроллеры и вьюхи — только 
 ```ruby
 class BackupJob
   include Sidekiq::Job
-  include SidekiqJobsDisplayer::Job
+  include SidekiqCockpit::Job
 
-  displayer description: 'Бэкап базы', trigger: 'кнопка в админке', group: 'Бэкапы',
+  cockpit description: 'Бэкап базы', trigger: 'кнопка в админке', group: 'Бэкапы',
             runnable: true, confirm: 'Запустить бэкап?',
             args: [{ name: :chat_id, type: :integer, optional: true }]
 end
 ```
 
-Без `displayer` тексты берутся из I18n приложения:
+Без `cockpit` тексты берутся из I18n приложения:
 
 ```yaml
 ru:
-  sidekiq_jobs_displayer:
+  sidekiq_cockpit:
     jobs:
       backup_job:
         description: "Бэкап базы"
@@ -80,27 +80,27 @@ ru:
 ### Свой планировщик
 
 ```ruby
-class MyScheduler < SidekiqJobsDisplayer::Schedulers::Base
+class MyScheduler < SidekiqCockpit::Schedulers::Base
   def capabilities = %i[toggle]
-  def schedules = [...]   # SidekiqJobsDisplayer::Schedulers::Schedule
+  def schedules = [...]   # SidekiqCockpit::Schedulers::Schedule
   def enable(id) = ...
   def disable(id) = ...
 end
 
-SidekiqJobsDisplayer.configure { |c| c.scheduler = MyScheduler }
+SidekiqCockpit.configure { |c| c.scheduler = MyScheduler }
 ```
 
 Интерфейс показывает только кнопки из `capabilities`.
 
 ### Хранилище
 
-Тот же Redis, что у Sidekiq, префикс `sjd:`. Миграций нет.
+Тот же Redis, что у Sidekiq, префикс `cockpit:`. Миграций нет.
 
 | Ключ | Тип | Что | Срок |
 |---|---|---|---|
-| `sjd:runs:<Class>` | list | последние запуски с jid | `history.limit` |
-| `sjd:stats:<Class>:<час>` | hash | ok / failed / interrupted / ms | `history.stats_ttl` |
-| `sjd:jobs` | set | все запускавшиеся классы | — |
+| `cockpit:runs:<Class>` | list | последние запуски с jid | `history.limit` |
+| `cockpit:stats:<Class>:<час>` | hash | ok / failed / interrupted / ms | `history.stats_ttl` |
+| `cockpit:jobs` | set | все запускавшиеся классы | — |
 
 ## Разработка
 

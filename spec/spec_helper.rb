@@ -7,7 +7,7 @@ require 'sidekiq/api'
 
 Sidekiq.logger.level = Logger::WARN
 
-CRON = SidekiqJobsDisplayer::Schedulers::SidekiqCron.available?
+CRON = SidekiqCockpit::Schedulers::SidekiqCron.available?
 warn "sidekiq-cron: #{CRON ? 'подключён' : 'нет'}"
 
 RSpec.configure do |config|
@@ -18,13 +18,13 @@ RSpec.configure do |config|
 
   config.before do
     Sidekiq.redis(&:flushdb)
-    SidekiqJobsDisplayer.reset_config!
-    SidekiqJobsDisplayer.config.authorize { true }
+    SidekiqCockpit.reset_config!
+    SidekiqCockpit.config.authorize { true }
   end
 end
 
 def build_run(**attrs)
-  SidekiqJobsDisplayer::Stores::Runs::Run.new(
+  SidekiqCockpit::Stores::Runs::Run.new(
     jid: SecureRandom.hex(12), job_class: 'BackupJob', queue: 'default', started_at: Time.current, duration: 0.5,
     status: 'ok', error_class: nil, error_message: nil, args: '[]', retry_count: nil, **attrs
   )

@@ -1,6 +1,6 @@
 RSpec.describe 'Страницы задач', type: :request do
   it 'без authorize отвечает 403' do
-    SidekiqJobsDisplayer.reset_config!
+    SidekiqCockpit.reset_config!
 
     get '/admin/sidekiq'
     expect(response).to have_http_status(:forbidden)
@@ -15,8 +15,8 @@ RSpec.describe 'Страницы задач', type: :request do
   end
 
   it 'показывает страницу задачи с запусками' do
-    SidekiqJobsDisplayer.runs_store.record(build_run(status: 'failed', error_class: 'RuntimeError',
-                                                     error_message: 'SSH'))
+    SidekiqCockpit.runs_store.record(build_run(status: 'failed', error_class: 'RuntimeError',
+                                               error_message: 'SSH'))
 
     get '/admin/sidekiq/jobs/BackupJob'
 
@@ -46,7 +46,7 @@ RSpec.describe 'Страницы задач', type: :request do
     end
 
     it 'прячет кнопки без права toggle и не даёт его обойти' do
-      SidekiqJobsDisplayer.config.authorize { |_controller, action| action == :read }
+      SidekiqCockpit.config.authorize { |_controller, action| action == :read }
 
       get '/admin/sidekiq'
       expect(response.body).not_to include('Отключить')

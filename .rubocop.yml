@@ -28,10 +28,10 @@ RSpec/ExampleLength:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/requests/**/*'
-    - 'spec/sidekiq_jobs_displayer/schedulers/sidekiq_cron_spec.rb'
+    - 'spec/sidekiq_cockpit/schedulers/sidekiq_cron_spec.rb'
 Style/OneClassPerFile:
   Exclude:
-    - 'lib/sidekiq_jobs_displayer.rb'
+    - 'lib/sidekiq_cockpit.rb'
 Rails/ApplicationJob:
   Exclude:
     - 'spec/dummy/**/*'
@@ -43,3 +43,6 @@ Metrics/CyclomaticComplexity:
   Max: 9
 Metrics/ParameterLists:
   Max: 6
+Naming/FileName:
+  Exclude:
+    - 'lib/sidekiq-cockpit.rb'

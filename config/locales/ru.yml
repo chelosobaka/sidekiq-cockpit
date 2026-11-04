@@ -1,5 +1,5 @@
 ru:
-  sidekiq_jobs_displayer:
+  sidekiq_cockpit:
     nav:
       jobs: "Задачи"
       back: "В приложение"
@@ -36,7 +36,7 @@ ru:
       toggle_schedule:
         enabled: "Расписание включено"
         disabled: "Расписание отключено"
-    # Описания задач приложения — sidekiq_jobs_displayer.jobs.<backup_job>.description / trigger
+    # Описания задач приложения — sidekiq_cockpit.jobs.<backup_job>.description / trigger
     jobs:
       index:
         title: "Задачи"

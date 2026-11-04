@@ -1,5 +1,5 @@
 en:
-  sidekiq_jobs_displayer:
+  sidekiq_cockpit:
     nav:
       jobs: "Jobs"
       back: "Back to app"
@@ -36,7 +36,7 @@ en:
       toggle_schedule:
         enabled: "Schedule enabled"
         disabled: "Schedule disabled"
-    # App job texts go to sidekiq_jobs_displayer.jobs.<backup_job>.description / trigger
+    # App job texts go to sidekiq_cockpit.jobs.<backup_job>.description / trigger
     jobs:
       index:
         title: "Jobs"
