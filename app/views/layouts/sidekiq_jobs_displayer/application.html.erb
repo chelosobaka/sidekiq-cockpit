@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title><%= SidekiqJobsDisplayer.config.title %></title>
+  <title><%= sjd_config.title %></title>
   <%= csrf_meta_tags %>
   <script>
     // Тема Bootstrap 5.3 — как в системе пользователя.
@@ -11,7 +11,7 @@
       document.documentElement.setAttribute('data-bs-theme', 'dark');
     }
   </script>
-  <% if SidekiqJobsDisplayer.config.bootstrap_css_url %>
+  <% if sjd_config.bootstrap_css_url %>
     <%= stylesheet_link_tag SidekiqJobsDisplayer.config.bootstrap_css_url %>
   <% end %>
 </head>
@@ -25,8 +25,8 @@
                       class: ['nav-link', ('active' if controller_name == 'jobs')] %>
         </li>
       </ul>
-      <% if SidekiqJobsDisplayer.config.back_url %>
-        <%= link_to t('sidekiq_jobs_displayer.nav.back'), SidekiqJobsDisplayer.config.back_url,
+      <% if sjd_config.back_url %>
+        <%= link_to t('sidekiq_jobs_displayer.nav.back'), sjd_config.back_url,
                     class: 'btn btn-outline-secondary btn-sm' %>
       <% end %>
     </div>
@@ -39,7 +39,7 @@
     <%= yield %>
   </main>
 
-  <% if SidekiqJobsDisplayer.config.bootstrap_js_url %>
+  <% if sjd_config.bootstrap_js_url %>
     <%= javascript_include_tag SidekiqJobsDisplayer.config.bootstrap_js_url %>
   <% end %>
 </body>

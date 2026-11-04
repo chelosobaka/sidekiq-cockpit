@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount SidekiqJobsDisplayer::Engine => '/admin/jobs'
+  mount SidekiqJobsDisplayer::Engine => '/admin/sidekiq'
 end

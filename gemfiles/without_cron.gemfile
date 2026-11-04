@@ -1,0 +1,6 @@
+# Прогон без sidekiq-cron: BUNDLE_GEMFILE=gemfiles/without_cron.gemfile bundle exec rspec
+source 'https://rubygems.org'
+
+gemspec path: '..'
+
+eval_gemfile 'common.rb'

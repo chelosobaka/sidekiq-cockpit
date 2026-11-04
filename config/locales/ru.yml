@@ -26,24 +26,30 @@ ru:
     day_runs: "запусков: %{runs}"
     day_failures: "с ошибкой: %{failures}"
     retry: "повтор %{count}"
+    schedules:
+      enqueue: "Запустить сейчас"
+      enable: "Включить"
+      disable: "Отключить"
+    actions:
+      enqueue_schedule:
+        done: "Задача поставлена в очередь"
+      toggle_schedule:
+        enabled: "Расписание включено"
+        disabled: "Расписание отключено"
+    # Описания задач приложения — sidekiq_jobs_displayer.jobs.<backup_job>.description / trigger
     jobs:
-      not_scheduled: "У задачи нет расписания"
       index:
         title: "Задачи"
         intro: "Все фоновые задачи — по расписанию и по событиям. По каждой хранятся последние %{limit} запусков."
-        empty: "Задач не найдено. Проверьте config.job_paths."
+        empty: "Задач не найдено."
+        all_groups: "Все группы"
+        failed_only: "Только с ошибками за сутки"
         sections:
           scheduled: "По расписанию"
           events: "По событиям"
       show:
         back: "← Все задачи"
+        schedules: "Расписания"
+        runs: "Последние запуски"
         no_runs: "Запусков ещё не было."
-        enqueue: "Запустить сейчас"
-        enable: "Включить"
-        disable: "Отключить"
-      enqueue:
-        done: "Задача поставлена в очередь"
-      enable:
-        done: "Расписание включено"
-      disable:
-        done: "Расписание отключено"
+        average: "в среднем %{duration}"

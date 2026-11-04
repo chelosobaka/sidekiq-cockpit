@@ -1,0 +1,6 @@
+ru:
+  sidekiq_jobs_displayer:
+    jobs:
+      telegram_send_message_job:
+        description: "Отправляет сообщение в Telegram"
+        trigger: "рассылки и уведомления"

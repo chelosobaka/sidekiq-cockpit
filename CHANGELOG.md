@@ -2,7 +2,14 @@
 
 ## 0.1.0 — не выпущен
 
-- Скелет engine: страница «Задачи» (по расписанию / по событиям), страница задачи с историей
-  запусков, кнопки sidekiq-cron «Запустить сейчас» / «Включить» / «Отключить».
-- Middleware истории запусков в Redis (перенесена из lib/job_history.rb проекта oasis).
-- Генератор `rails g sidekiq_jobs_displayer:install`.
+Шаг 1: ядро по слоям.
+
+- `Configuration` с вложенными `history`, `logs`, `errors`; `authorize` получает действие.
+- `Registry`, `JobDefinition` и DSL `displayer` (`include SidekiqJobsDisplayer::Job`).
+- Адаптеры расписаний `Schedulers::None` и `Schedulers::SidekiqCron` с `capabilities`;
+  sidekiq-cron больше не зависимость гема, выбор — `c.scheduler = :auto`.
+- `Stores::Runs`: запуски с jid и часовые счётчики `sjd:stats`.
+- `Middleware::Recorder`, маскирование секретов в аргументах.
+- `Queries::Overview`, `Queries::JobDetails`, `Actions::ToggleSchedule`, `Actions::EnqueueSchedule`.
+- Интерфейс `LogSources` (`:capture`, `:file`, свой класс) — сами источники на шаге 2.
+- Rails >= 7.1, Ruby >= 3.2. Спеки на каждый слой, прогон с sidekiq-cron и без него.

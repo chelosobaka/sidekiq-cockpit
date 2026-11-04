@@ -1,0 +1,45 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.2
+  Exclude:
+    - 'vendor/**/*'
+    - 'spec/dummy/tmp/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Layout/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 20
+Metrics/AbcSize:
+  Max: 40
+Metrics/ClassLength:
+  Max: 150
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/ExampleLength:
+  Max: 12
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/requests/**/*'
+    - 'spec/sidekiq_jobs_displayer/schedulers/sidekiq_cron_spec.rb'
+Style/OneClassPerFile:
+  Exclude:
+    - 'lib/sidekiq_jobs_displayer.rb'
+Rails/ApplicationJob:
+  Exclude:
+    - 'spec/dummy/**/*'
+Rails/RakeEnvironment:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 9
+Metrics/ParameterLists:
+  Max: 6

@@ -1,0 +1,15 @@
+<div class="d-inline-flex gap-1 mb-1">
+  <% if capabilities.include?(:enqueue_now) && sjd_can?(:enqueue) %>
+    <%= button_to t('sidekiq_jobs_displayer.schedules.enqueue'), enqueue_schedule_path(schedule.id),
+                  class: 'btn btn-primary btn-sm', title: schedule.id %>
+  <% end %>
+  <% if capabilities.include?(:toggle) && sjd_can?(:toggle) %>
+    <% if schedule.enabled? %>
+      <%= button_to t('sidekiq_jobs_displayer.schedules.disable'), disable_schedule_path(schedule.id),
+                    class: 'btn btn-outline-danger btn-sm', title: schedule.id %>
+    <% else %>
+      <%= button_to t('sidekiq_jobs_displayer.schedules.enable'), enable_schedule_path(schedule.id),
+                    class: 'btn btn-outline-success btn-sm', title: schedule.id %>
+    <% end %>
+  <% end %>
+</div>
