@@ -1,46 +1,44 @@
+<%#
+  Лейаут sidekiq-cockpit. Это голый HTML: стили не подключены и классов нет.
+  Подсказки, как это выглядело на Bootstrap 5, оставлены ERB-комментариями вида
+  class="…" прямо в тегах: уберите обёртку комментария, и класс заработает. Под свой CSS-фреймворк
+  замените подсказки своими классами.
+
+  Можно и вовсе взять лейаут приложения: SidekiqCockpit.configure { |c| c.layout = 'admin' }.
+%>
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-bs-theme="light">
+<html lang="<%= I18n.locale %>">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title><%= cockpit_config.title %></title>
   <%= csrf_meta_tags %>
-  <script>
-    // Тема Bootstrap 5.3 — как в системе пользователя.
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      document.documentElement.setAttribute('data-bs-theme', 'dark');
-    }
-  </script>
-  <% if cockpit_config.bootstrap_css_url %>
-    <%= stylesheet_link_tag SidekiqCockpit.config.bootstrap_css_url %>
-  <% end %>
+  <%# Bootstrap 5 с CDN:
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" defer></script>
+  %>
 </head>
 <body>
-  <nav class="navbar navbar-expand bg-body-tertiary border-bottom mb-4">
-    <div class="container-fluid">
-      <%= link_to SidekiqCockpit.config.title, root_path, class: 'navbar-brand' %>
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <%= link_to t('sidekiq_cockpit.nav.jobs'), root_path,
-                      class: ['nav-link', ('active' if controller_name == 'jobs')] %>
+  <nav <%# class="navbar navbar-expand bg-body-tertiary border-bottom mb-4" %>>
+    <div <%# class="container-fluid" %>>
+      <a href="<%= root_path %>" <%# class="navbar-brand" %>><%= cockpit_config.title %></a>
+      <ul <%# class="navbar-nav me-auto" %>>
+        <li <%# class="nav-item" %>>
+          <a href="<%= jobs_path %>" <%= 'aria-current="page"'.html_safe if controller_name == 'jobs' %>
+             <%# class="nav-link", на текущей странице ещё "active" %>><%= t('sidekiq_cockpit.nav.jobs') %></a>
         </li>
       </ul>
       <% if cockpit_config.back_url %>
-        <%= link_to t('sidekiq_cockpit.nav.back'), cockpit_config.back_url,
-                    class: 'btn btn-outline-secondary btn-sm' %>
+        <a href="<%= cockpit_config.back_url %>" <%# class="btn btn-outline-secondary btn-sm" %>><%= t('sidekiq_cockpit.nav.back') %></a>
       <% end %>
     </div>
   </nav>
 
-  <main class="container-xxl">
+  <main <%# class="container-xxl" %>>
     <% flash.each do |type, message| %>
-      <div class="alert alert-<%= type.to_s == 'alert' ? 'danger' : 'success' %>"><%= message %></div>
+      <div role="alert" data-flash="<%= type %>" <%# class="alert alert-success" или "alert alert-danger" для alert %>><%= message %></div>
     <% end %>
     <%= yield %>
   </main>
-
-  <% if cockpit_config.bootstrap_js_url %>
-    <%= javascript_include_tag SidekiqCockpit.config.bootstrap_js_url %>
-  <% end %>
 </body>
 </html>

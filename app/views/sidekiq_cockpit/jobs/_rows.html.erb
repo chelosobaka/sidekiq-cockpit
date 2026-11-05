@@ -1,5 +1,6 @@
-<div class="table-responsive">
-  <table class="table table-striped table-hover align-top">
+<%# Таблица задач одного раздела. %>
+<div <%# class="table-responsive" %>>
+  <table <%# class="table table-striped table-hover align-top" %>>
     <thead>
       <tr>
         <th><%= t('sidekiq_cockpit.columns.job') %></th>
@@ -13,11 +14,13 @@
     <tbody>
       <% rows.each do |row| %>
         <% run = row.last_run %>
-        <tr>
+        <tr data-job="<%= row.name %>">
           <td>
-            <%= link_to tag.strong(row.name), job_path(row.name), class: 'link-body-emphasis text-decoration-none' %>
-            <% if row.group %><span class="badge text-bg-light border ms-1"><%= row.group %></span><% end %>
-            <div class="small text-body-secondary"><%= row.description %></div>
+            <a href="<%= job_path(row.name) %>" <%# class="link-body-emphasis text-decoration-none" %>><strong><%= row.name %></strong></a>
+            <% if row.group %>
+              <span data-group <%# class="badge text-bg-light border ms-1" %>><%= row.group %></span>
+            <% end %>
+            <div <%# class="small text-body-secondary" %>><%= row.description %></div>
           </td>
           <td>
             <%= row.trigger %>
@@ -25,22 +28,22 @@
               <%= render 'sidekiq_cockpit/schedules/schedule', schedule: schedule %>
             <% end %>
           </td>
-          <td class="text-nowrap">
+          <td <%# class="text-nowrap" %>>
             <% if run %>
               <%= cockpit_time(run.started_at) %>
-              <div class="small text-body-secondary"><%= cockpit_duration(run.duration) %></div>
+              <div <%# class="small text-body-secondary" %>><%= cockpit_duration(run.duration) %></div>
             <% else %>
-              <span class="text-body-secondary"><%= t('sidekiq_cockpit.never_run') %></span>
+              <span <%# class="text-body-secondary" %>><%= t('sidekiq_cockpit.never_run') %></span>
             <% end %>
           </td>
-          <td><%= cockpit_result(run) if run %></td>
-          <td class="text-nowrap">
-            <%= cockpit_day_runs(row.day_stats) %>
+          <td><%= render 'sidekiq_cockpit/runs/result', run: run if run %></td>
+          <td <%# class="text-nowrap" %>>
+            <%= t('sidekiq_cockpit.day_runs', runs: row.day_stats.total) %>
             <% if row.day_stats.failed.positive? %>
-              <div class="small text-danger"><%= t('sidekiq_cockpit.day_failures', failures: row.day_stats.failed) %></div>
+              <div <%# class="small text-danger" %>><%= t('sidekiq_cockpit.day_failures', failures: row.day_stats.failed) %></div>
             <% end %>
           </td>
-          <td class="text-end">
+          <td <%# class="text-end" %>>
             <% row.schedules.each do |schedule| %>
               <%= render 'sidekiq_cockpit/schedules/buttons', schedule: schedule, capabilities: capabilities %>
             <% end %>

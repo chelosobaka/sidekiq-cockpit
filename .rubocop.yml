@@ -28,6 +28,7 @@ RSpec/ExampleLength:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/requests/**/*'
+    - 'spec/generators/**/*'
     - 'spec/sidekiq_cockpit/schedulers/sidekiq_cron_spec.rb'
 Style/OneClassPerFile:
   Exclude:

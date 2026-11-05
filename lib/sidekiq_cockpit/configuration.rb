@@ -66,7 +66,7 @@ module SidekiqCockpit
     attr_accessor :filter_args
 
     # Отображение.
-    attr_accessor :time_zone, :title, :layout, :back_url, :bootstrap_css_url, :bootstrap_js_url
+    attr_accessor :time_zone, :title, :layout, :back_url
 
     # Префикс всех ключей модуля в Redis.
     attr_accessor :redis_key_prefix
@@ -85,8 +85,6 @@ module SidekiqCockpit
       @title = 'Фоновые задачи'
       @layout = 'sidekiq_cockpit/application'
       @back_url = nil
-      @bootstrap_css_url = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css'
-      @bootstrap_js_url = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js'
       @redis_key_prefix = 'cockpit'
       @authorize = nil
       @actor = nil

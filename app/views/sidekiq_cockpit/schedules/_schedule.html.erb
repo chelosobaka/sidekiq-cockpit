@@ -1,10 +1,11 @@
-<div class="small mt-1">
+<%# Одно расписание: cron, следующий запуск или «отключено». %>
+<div data-schedule="<%= schedule.id %>" data-enabled="<%= schedule.enabled? %>" <%# class="small mt-1" %>>
   <code><%= schedule.cron %></code>
   <% if schedule.enabled? %>
     <% if schedule.next_run_at %>
       <div><%= t('sidekiq_cockpit.next_run', time: cockpit_time(schedule.next_run_at)) %></div>
     <% end %>
   <% else %>
-    <div class="text-danger"><%= t('sidekiq_cockpit.disabled') %></div>
+    <div <%# class="text-danger" %>><%= t('sidekiq_cockpit.disabled') %></div>
   <% end %>
 </div>
