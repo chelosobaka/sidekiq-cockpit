@@ -28,7 +28,6 @@ SidekiqCockpit.configure do |c|
   # c.time_zone = 'Europe/Moscow'
   # c.title = 'Фоновые задачи'
   # c.back_url = '/admin'
-  # c.layout = 'admin' # и тогда Bootstrap подключает лейаут приложения:
-  # c.bootstrap_css_url = nil
-  # c.bootstrap_js_url = nil
+  # Лейаут: свой (app/views/layouts/sidekiq_cockpit/application.html.erb) или лейаут приложения.
+  # c.layout = 'admin'
 end

@@ -1,0 +1,10 @@
+<%# Итог запуска: статус, номер повтора, текст ошибки.
+    Подсказки для статуса: ok — class="badge text-bg-success", failed — "badge text-bg-danger",
+    interrupted — "badge text-bg-warning". %>
+<span data-status="<%= run.status %>" <%# class="badge text-bg-success" %>><%= t("sidekiq_cockpit.statuses.#{run.status}", default: run.status) %></span>
+<% if run.retry_count %>
+  <small <%# class="text-body-secondary ms-1" %>><%= t('sidekiq_cockpit.retry', count: run.retry_count + 1) %></small>
+<% end %>
+<% if run.error %>
+  <div data-error <%# class="text-danger text-break" %>><small><%= run.error %></small></div>
+<% end %>

@@ -1,29 +1,33 @@
-<header class="d-flex flex-wrap align-items-end gap-3 mb-4">
-  <div class="me-auto">
-    <h1 class="h3"><%= t('.title') %></h1>
-    <p class="text-body-secondary mb-0"><%= t('.intro', limit: cockpit_config.history.limit) %></p>
+<%# Список задач: «По расписанию» и «По событиям». Подсказки Bootstrap 5 — в комментариях class="…". %>
+<header <%# class="d-flex flex-wrap align-items-end gap-3 mb-4" %>>
+  <div <%# class="me-auto" %>>
+    <h1 <%# class="h3" %>><%= t('.title') %></h1>
+    <p <%# class="text-body-secondary mb-0" %>><%= t('.intro', limit: cockpit_config.history.limit) %></p>
   </div>
-  <%= form_with url: jobs_path, method: :get, class: 'd-flex align-items-center gap-3' do %>
+  <%= form_with url: jobs_path, method: :get do %>
+    <%# у формы: class="d-flex align-items-center gap-3" %>
     <% groups = @overview.rows.filter_map(&:group).uniq.sort %>
     <% if groups.any? || @group %>
       <%= select_tag :group, options_for_select(groups, @group), include_blank: t('.all_groups'),
-                     class: 'form-select form-select-sm', onchange: 'this.form.requestSubmit()' %>
+                     onchange: 'this.form.requestSubmit()' %>
+      <%# у select: class="form-select form-select-sm" %>
     <% end %>
-    <div class="form-check text-nowrap mb-0">
-      <%= check_box_tag :failed, '1', @failed_only, class: 'form-check-input', onchange: 'this.form.requestSubmit()' %>
-      <%= label_tag :failed, t('.failed_only'), class: 'form-check-label' %>
-    </div>
+    <label>
+      <%# у label: class="form-check text-nowrap mb-0", у чекбокса: class="form-check-input" %>
+      <%= check_box_tag :failed, '1', @failed_only, onchange: 'this.form.requestSubmit()' %>
+      <%= t('.failed_only') %>
+    </label>
   <% end %>
 </header>
 
 <% if @overview.empty? %>
-  <p class="text-body-secondary"><%= t('.empty') %></p>
+  <p <%# class="text-body-secondary" %>><%= t('.empty') %></p>
 <% end %>
 
 <% { 'scheduled' => @overview.scheduled, 'events' => @overview.events }.each do |section, rows| %>
   <% next if rows.empty? %>
-  <section class="mb-5">
-    <h2 class="h5"><%= t(".sections.#{section}") %></h2>
+  <section data-section="<%= section %>" <%# class="mb-5" %>>
+    <h2 <%# class="h5" %>><%= t(".sections.#{section}") %></h2>
     <%= render 'rows', rows: rows, capabilities: @overview.capabilities %>
   </section>
 <% end %>

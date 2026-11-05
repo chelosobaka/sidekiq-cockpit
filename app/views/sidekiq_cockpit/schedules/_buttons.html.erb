@@ -1,15 +1,23 @@
-<div class="d-inline-flex gap-1 mb-1">
+<%# Кнопки расписания. Показываются только те, что умеет адаптер и разрешает authorize.
+    Формы написаны руками, а не button_to, чтобы в разметке не было чужих классов. %>
+<div <%# class="d-inline-flex gap-1 mb-1" %>>
   <% if capabilities.include?(:enqueue_now) && cockpit_can?(:enqueue) %>
-    <%= button_to t('sidekiq_cockpit.schedules.enqueue'), enqueue_schedule_path(schedule.id),
-                  class: 'btn btn-primary btn-sm', title: schedule.id %>
+    <form method="post" action="<%= enqueue_schedule_path(schedule.id) %>">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <button type="submit" title="<%= schedule.id %>" <%# class="btn btn-primary btn-sm" %>><%= t('sidekiq_cockpit.schedules.enqueue') %></button>
+    </form>
   <% end %>
   <% if capabilities.include?(:toggle) && cockpit_can?(:toggle) %>
     <% if schedule.enabled? %>
-      <%= button_to t('sidekiq_cockpit.schedules.disable'), disable_schedule_path(schedule.id),
-                    class: 'btn btn-outline-danger btn-sm', title: schedule.id %>
+      <form method="post" action="<%= disable_schedule_path(schedule.id) %>">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" title="<%= schedule.id %>" <%# class="btn btn-outline-danger btn-sm" %>><%= t('sidekiq_cockpit.schedules.disable') %></button>
+      </form>
     <% else %>
-      <%= button_to t('sidekiq_cockpit.schedules.enable'), enable_schedule_path(schedule.id),
-                    class: 'btn btn-outline-success btn-sm', title: schedule.id %>
+      <form method="post" action="<%= enable_schedule_path(schedule.id) %>">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <button type="submit" title="<%= schedule.id %>" <%# class="btn btn-outline-success btn-sm" %>><%= t('sidekiq_cockpit.schedules.enable') %></button>
+      </form>
     <% end %>
   <% end %>
 </div>

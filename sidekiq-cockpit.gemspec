@@ -6,7 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors     = ['chelosobaka']
   spec.summary     = 'Страница управления фоновыми задачами Sidekiq для Rails 7.1+'
   spec.description = 'Rails-engine: мониторинг задач по расписанию и по событиям, управление запусками, ' \
-                     'логи и ошибки. Планировщики (sidekiq-cron и др.) подключаются через адаптеры. Bootstrap 5.'
+                     'логи и ошибки. Планировщики (sidekiq-cron и др.) подключаются через адаптеры. ' \
+                     'Вьюхи — голый HTML, стили на стороне приложения.'
   spec.license     = 'MIT'
   spec.homepage    = 'https://github.com/chelosobaka/sidekiq-cockpit'
   spec.required_ruby_version = '>= 3.2'
